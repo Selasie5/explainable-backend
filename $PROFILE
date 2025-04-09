@@ -1,0 +1,20 @@
+# Touch function to create new files or update timestamps
+function touch {
+    param(
+        [Parameter(Mandatory=$true, Position=0)]
+        [string[]]$Files
+    )
+
+    foreach ($file in $Files) {
+        if (Test-Path $file) {
+            # File exists, update the timestamp
+            (Get-Item $file).LastWriteTime = Get-Date
+            Write-Host "Updated timestamp for: $file"
+        } else {
+            # File doesn't exist, create it
+            $null = New-Item -ItemType File -Path $file -Force
+            Write-Host "Created new file: $file"
+        }
+    }
+}
+
