@@ -1,11 +1,20 @@
 from fastapi import FastAPI
+from routers.upload import UploadFileRouter
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
 @app.get("/")
 async def root():
     return {"message":"Hello World"}
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-@app.get("/items/{item_id}")
-async def read_items(item_id):
-    return {"item_id":item_id}
+
+app.include_router(UploadFileRouter, prefix="/api/v1", tags=["upload"])
+    
