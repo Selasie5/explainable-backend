@@ -1,0 +1,67 @@
+2025-04-17 04:20:57,586 - ERROR - Error processing file: business-operations-survey-2023-business-practices.csv
+Traceback (most recent call last):
+  File "C:\Users\HP\Desktop\explainable-backend-engine\utils\file_handler.py", line 72, in process_uploaded_file
+    df = pd.read_csv(file.file)
+  File "C:\Users\HP\Desktop\explainable-backend-engine\.venv\Lib\site-packages\pandas\io\parsers\readers.py", line 1026, in read_csv
+    return _read(filepath_or_buffer, kwds)
+  File "C:\Users\HP\Desktop\explainable-backend-engine\.venv\Lib\site-packages\pandas\io\parsers\readers.py", line 620, in _read
+    parser = TextFileReader(filepath_or_buffer, **kwds)
+  File "C:\Users\HP\Desktop\explainable-backend-engine\.venv\Lib\site-packages\pandas\io\parsers\readers.py", line 1620, in __init__
+    self._engine = self._make_engine(f, self.engine)
+                   ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\explainable-backend-engine\.venv\Lib\site-packages\pandas\io\parsers\readers.py", line 1898, in _make_engine
+    return mapping[engine](f, **self.options)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\explainable-backend-engine\.venv\Lib\site-packages\pandas\io\parsers\c_parser_wrapper.py", line 93, in __init__
+    self._reader = parsers.TextReader(src, **kwds)
+                   ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "parsers.pyx", line 574, in pandas._libs.parsers.TextReader.__cinit__
+  File "parsers.pyx", line 663, in pandas._libs.parsers.TextReader._get_header
+  File "parsers.pyx", line 874, in pandas._libs.parsers.TextReader._tokenize_rows
+  File "parsers.pyx", line 891, in pandas._libs.parsers.TextReader._check_tokenize_status
+  File "parsers.pyx", line 2053, in pandas._libs.parsers.raise_parser_error
+  File "<frozen codecs>", line 325, in decode
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0x96 in position 100: invalid start byte
+
+2025-04-17 04:23:25,182 - INFO - Saved file to cache: cache\7eb55d594a6a0b9fbfd3ce390e6016fb5f02b7eb12413031502e06f91f16a162.csv
+2025-04-17 04:23:25,186 - ERROR - Error processing file: mock_model.pkl
+Traceback (most recent call last):
+  File "C:\Users\HP\Desktop\explainable-backend-engine\utils\file_handler.py", line 83, in process_uploaded_file
+    model = joblib.load(file.file)
+  File "C:\Users\HP\Desktop\explainable-backend-engine\.venv\Lib\site-packages\joblib\numpy_pickle.py", line 648, in load
+    obj = _unpickle(fobj)
+  File "C:\Users\HP\Desktop\explainable-backend-engine\.venv\Lib\site-packages\joblib\numpy_pickle.py", line 577, in _unpickle
+    obj = unpickler.load()
+  File "C:\Program Files\Python313\Lib\pickle.py", line 1256, in load
+    dispatch[key[0]](self)
+    ~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Program Files\Python313\Lib\pickle.py", line 1543, in load_inst
+    klass = self.find_class(module, name)
+  File "C:\Program Files\Python313\Lib\pickle.py", line 1622, in find_class
+    __import__(module, level=0)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^
+ModuleNotFoundError: No module named 'mport pandas as pd'
+
+2025-04-17 08:25:43,394 - INFO - Loaded file from cache: cache\7eb55d594a6a0b9fbfd3ce390e6016fb5f02b7eb12413031502e06f91f16a162.csv
+2025-04-17 08:25:43,448 - ERROR - Error processing file: mock_model.pkl
+Traceback (most recent call last):
+  File "C:\Users\HP\Desktop\explainable-backend-engine\utils\file_handler.py", line 84, in process_uploaded_file
+    model = joblib.load(file.file)
+  File "C:\Users\HP\Desktop\explainable-backend-engine\.venv\Lib\site-packages\joblib\numpy_pickle.py", line 648, in load
+    obj = _unpickle(fobj)
+  File "C:\Users\HP\Desktop\explainable-backend-engine\.venv\Lib\site-packages\joblib\numpy_pickle.py", line 577, in _unpickle
+    obj = unpickler.load()
+  File "C:\Program Files\Python313\Lib\pickle.py", line 1256, in load
+    dispatch[key[0]](self)
+    ~~~~~~~~^^^^^^^^
+KeyError: 35
+
+2025-04-17 08:36:00,898 - INFO - Saved file to cache: cache\9918c488db326dc5e1a4979ef0ed9ecefa31f7211e4b9e2f2a70b1d1fd1487eb.csv
+2025-04-17 08:36:01,161 - INFO - Saved file to cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
+2025-04-22 19:27:18,578 - INFO - generated new fontManager
+2025-04-22 19:31:47,402 - INFO - Loaded file from cache: cache\9918c488db326dc5e1a4979ef0ed9ecefa31f7211e4b9e2f2a70b1d1fd1487eb.csv
+2025-04-22 19:31:47,483 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
+2025-04-22 19:36:08,553 - INFO - Loaded file from cache: cache\9918c488db326dc5e1a4979ef0ed9ecefa31f7211e4b9e2f2a70b1d1fd1487eb.csv
+2025-04-22 19:36:08,586 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
+2025-04-22 19:36:34,883 - INFO - Loaded file from cache: cache\9918c488db326dc5e1a4979ef0ed9ecefa31f7211e4b9e2f2a70b1d1fd1487eb.csv
+2025-04-22 19:36:34,883 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
