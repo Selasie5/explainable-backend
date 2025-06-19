@@ -65,3 +65,112 @@ KeyError: 35
 2025-04-22 19:36:08,586 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
 2025-04-22 19:36:34,883 - INFO - Loaded file from cache: cache\9918c488db326dc5e1a4979ef0ed9ecefa31f7211e4b9e2f2a70b1d1fd1487eb.csv
 2025-04-22 19:36:34,883 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
+2025-04-27 21:58:49,565 - INFO - Loaded file from cache: cache\9918c488db326dc5e1a4979ef0ed9ecefa31f7211e4b9e2f2a70b1d1fd1487eb.csv
+2025-04-27 21:58:49,572 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
+2025-04-27 22:21:24,946 - INFO - Loaded file from cache: cache\9918c488db326dc5e1a4979ef0ed9ecefa31f7211e4b9e2f2a70b1d1fd1487eb.csv
+2025-04-27 22:21:24,951 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
+2025-04-27 22:21:48,934 - INFO - Loaded file from cache: cache\9918c488db326dc5e1a4979ef0ed9ecefa31f7211e4b9e2f2a70b1d1fd1487eb.csv
+2025-04-27 22:21:48,937 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
+2025-04-27 22:21:49,891 - INFO - Loaded file from cache: cache\9918c488db326dc5e1a4979ef0ed9ecefa31f7211e4b9e2f2a70b1d1fd1487eb.csv
+2025-04-27 22:21:49,892 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
+2025-04-27 22:24:16,365 - INFO - Loaded file from cache: cache\9918c488db326dc5e1a4979ef0ed9ecefa31f7211e4b9e2f2a70b1d1fd1487eb.csv
+2025-04-27 22:24:16,369 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
+2025-04-27 22:29:57,904 - INFO - Loaded file from cache: cache\9918c488db326dc5e1a4979ef0ed9ecefa31f7211e4b9e2f2a70b1d1fd1487eb.csv
+2025-04-27 22:29:57,915 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
+2025-04-27 22:30:16,570 - INFO - Loaded file from cache: cache\9918c488db326dc5e1a4979ef0ed9ecefa31f7211e4b9e2f2a70b1d1fd1487eb.csv
+2025-04-27 22:30:16,574 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
+2025-04-27 22:33:52,778 - INFO - Loaded file from cache: cache\9918c488db326dc5e1a4979ef0ed9ecefa31f7211e4b9e2f2a70b1d1fd1487eb.csv
+2025-04-27 22:33:52,782 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
+2025-04-27 22:36:15,930 - INFO - Loaded file from cache: cache\9918c488db326dc5e1a4979ef0ed9ecefa31f7211e4b9e2f2a70b1d1fd1487eb.csv
+2025-04-27 22:36:15,934 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
+2025-04-27 22:36:17,234 - INFO - Loaded file from cache: cache\9918c488db326dc5e1a4979ef0ed9ecefa31f7211e4b9e2f2a70b1d1fd1487eb.csv
+2025-04-27 22:36:17,236 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
+2025-04-27 22:36:41,720 - INFO - Loaded file from cache: cache\9918c488db326dc5e1a4979ef0ed9ecefa31f7211e4b9e2f2a70b1d1fd1487eb.csv
+2025-04-27 22:36:41,722 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
+2025-04-27 22:37:20,720 - INFO - Loaded file from cache: cache\9918c488db326dc5e1a4979ef0ed9ecefa31f7211e4b9e2f2a70b1d1fd1487eb.csv
+2025-04-27 22:37:20,723 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
+2025-04-27 22:51:03,581 - INFO - CSV file: mock_data.csv, Model file: mock_model.pkl
+2025-04-27 22:51:03,582 - INFO - Loaded file from cache: cache\9918c488db326dc5e1a4979ef0ed9ecefa31f7211e4b9e2f2a70b1d1fd1487eb.csv
+2025-04-27 22:51:03,586 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
+2025-04-27 22:51:03,943 - ERROR - An unexpected error occurred: In v0.20, force plot now requires the base value as the first parameter! Try shap.plots.force(explainer.expected_value, shap_values) or for multi-output models try shap.plots.force(explainer.expected_value[0], shap_values[..., 0]).
+2025-04-27 22:53:59,362 - INFO - CSV file: mock_data.csv, Model file: mock_model.pkl
+2025-04-27 22:53:59,362 - INFO - Loaded file from cache: cache\9918c488db326dc5e1a4979ef0ed9ecefa31f7211e4b9e2f2a70b1d1fd1487eb.csv
+2025-04-27 22:53:59,366 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
+2025-04-27 22:53:59,609 - ERROR - An unexpected error occurred: visualize() can only display Explanation objects (or arrays of them)!
+2025-04-27 22:55:17,235 - INFO - CSV file: mock_data.csv, Model file: mock_model.pkl
+2025-04-27 22:55:17,235 - INFO - Loaded file from cache: cache\9918c488db326dc5e1a4979ef0ed9ecefa31f7211e4b9e2f2a70b1d1fd1487eb.csv
+2025-04-27 22:55:17,238 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
+2025-04-27 22:55:17,244 - ERROR - An unexpected error occurred: index 3 is out of bounds for axis 0 with size 3
+2025-04-27 22:56:34,251 - INFO - CSV file: mock_data.csv, Model file: mock_model.pkl
+2025-04-27 22:56:34,252 - INFO - Loaded file from cache: cache\9918c488db326dc5e1a4979ef0ed9ecefa31f7211e4b9e2f2a70b1d1fd1487eb.csv
+2025-04-27 22:56:34,255 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
+2025-04-27 22:56:34,260 - ERROR - An unexpected error occurred: index 3 is out of bounds for axis 0 with size 3
+2025-04-27 22:56:35,108 - INFO - CSV file: mock_data.csv, Model file: mock_model.pkl
+2025-04-27 22:56:35,109 - INFO - Loaded file from cache: cache\9918c488db326dc5e1a4979ef0ed9ecefa31f7211e4b9e2f2a70b1d1fd1487eb.csv
+2025-04-27 22:56:35,111 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
+2025-04-27 22:56:35,113 - ERROR - An unexpected error occurred: index 3 is out of bounds for axis 0 with size 3
+2025-04-27 22:56:35,293 - INFO - CSV file: mock_data.csv, Model file: mock_model.pkl
+2025-04-27 22:56:35,293 - INFO - Loaded file from cache: cache\9918c488db326dc5e1a4979ef0ed9ecefa31f7211e4b9e2f2a70b1d1fd1487eb.csv
+2025-04-27 22:56:35,295 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
+2025-04-27 22:56:35,297 - ERROR - An unexpected error occurred: index 3 is out of bounds for axis 0 with size 3
+2025-04-27 22:56:35,498 - INFO - CSV file: mock_data.csv, Model file: mock_model.pkl
+2025-04-27 22:56:35,498 - INFO - Loaded file from cache: cache\9918c488db326dc5e1a4979ef0ed9ecefa31f7211e4b9e2f2a70b1d1fd1487eb.csv
+2025-04-27 22:56:35,499 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
+2025-04-27 22:56:35,503 - ERROR - An unexpected error occurred: index 3 is out of bounds for axis 0 with size 3
+2025-04-27 22:57:02,554 - INFO - CSV file: mock_data.csv, Model file: mock_model.pkl
+2025-04-27 22:57:02,555 - INFO - Loaded file from cache: cache\9918c488db326dc5e1a4979ef0ed9ecefa31f7211e4b9e2f2a70b1d1fd1487eb.csv
+2025-04-27 22:57:02,556 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
+2025-04-27 22:57:02,558 - ERROR - An unexpected error occurred: index 3 is out of bounds for axis 0 with size 3
+2025-04-27 22:59:40,494 - INFO - CSV file: mock_data.csv, Model file: mock_model.pkl
+2025-04-27 22:59:40,495 - INFO - Loaded file from cache: cache\9918c488db326dc5e1a4979ef0ed9ecefa31f7211e4b9e2f2a70b1d1fd1487eb.csv
+2025-04-27 22:59:40,498 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
+2025-04-27 22:59:40,503 - ERROR - An unexpected error occurred: index 3 is out of bounds for axis 0 with size 3
+2025-04-27 23:02:42,619 - INFO - CSV file: mock_data.csv, Model file: mock_model.pkl
+2025-04-27 23:02:42,619 - INFO - Loaded file from cache: cache\9918c488db326dc5e1a4979ef0ed9ecefa31f7211e4b9e2f2a70b1d1fd1487eb.csv
+2025-04-27 23:02:42,623 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
+2025-04-27 23:02:42,631 - ERROR - An unexpected error occurred: index 3 is out of bounds for axis 0 with size 3
+2025-04-27 23:02:43,483 - INFO - CSV file: mock_data.csv, Model file: mock_model.pkl
+2025-04-27 23:02:43,484 - INFO - Loaded file from cache: cache\9918c488db326dc5e1a4979ef0ed9ecefa31f7211e4b9e2f2a70b1d1fd1487eb.csv
+2025-04-27 23:02:43,485 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
+2025-04-27 23:02:43,488 - ERROR - An unexpected error occurred: index 3 is out of bounds for axis 0 with size 3
+2025-04-27 23:02:43,678 - INFO - CSV file: mock_data.csv, Model file: mock_model.pkl
+2025-04-27 23:02:43,678 - INFO - Loaded file from cache: cache\9918c488db326dc5e1a4979ef0ed9ecefa31f7211e4b9e2f2a70b1d1fd1487eb.csv
+2025-04-27 23:02:43,680 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
+2025-04-27 23:02:43,683 - ERROR - An unexpected error occurred: index 3 is out of bounds for axis 0 with size 3
+2025-04-27 23:02:43,899 - INFO - CSV file: mock_data.csv, Model file: mock_model.pkl
+2025-04-27 23:02:43,899 - INFO - Loaded file from cache: cache\9918c488db326dc5e1a4979ef0ed9ecefa31f7211e4b9e2f2a70b1d1fd1487eb.csv
+2025-04-27 23:02:43,900 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
+2025-04-27 23:02:43,904 - ERROR - An unexpected error occurred: index 3 is out of bounds for axis 0 with size 3
+2025-04-27 23:03:02,514 - INFO - CSV file: mock_data.csv, Model file: mock_model.pkl
+2025-04-27 23:03:02,515 - INFO - Loaded file from cache: cache\9918c488db326dc5e1a4979ef0ed9ecefa31f7211e4b9e2f2a70b1d1fd1487eb.csv
+2025-04-27 23:03:02,516 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
+2025-04-27 23:03:02,519 - ERROR - An unexpected error occurred: index 3 is out of bounds for axis 0 with size 3
+2025-04-27 23:06:04,174 - INFO - CSV file: mock_data.csv, Model file: mock_model.pkl
+2025-04-27 23:06:04,174 - INFO - Loaded file from cache: cache\9918c488db326dc5e1a4979ef0ed9ecefa31f7211e4b9e2f2a70b1d1fd1487eb.csv
+2025-04-27 23:06:04,178 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
+2025-04-27 23:06:04,188 - ERROR - An unexpected error occurred: index 3 is out of bounds for axis 0 with size 3
+2025-04-27 23:10:26,061 - INFO - CSV file: mock_data.csv, Model file: mock_model.pkl
+2025-04-27 23:10:26,062 - INFO - Loaded file from cache: cache\9918c488db326dc5e1a4979ef0ed9ecefa31f7211e4b9e2f2a70b1d1fd1487eb.csv
+2025-04-27 23:10:26,065 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
+2025-04-27 23:20:17,767 - INFO - CSV file: mock_data.csv, Model file: mock_model.pkl
+2025-04-27 23:20:17,768 - INFO - Loaded file from cache: cache\9918c488db326dc5e1a4979ef0ed9ecefa31f7211e4b9e2f2a70b1d1fd1487eb.csv
+2025-04-27 23:20:17,774 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
+2025-04-27 23:20:41,157 - INFO - CSV file: mock_data.csv, Model file: mock_model.pkl
+2025-04-27 23:20:41,158 - INFO - Loaded file from cache: cache\9918c488db326dc5e1a4979ef0ed9ecefa31f7211e4b9e2f2a70b1d1fd1487eb.csv
+2025-04-27 23:20:41,159 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
+2025-04-27 23:23:55,969 - INFO - CSV file: mock_data.csv, Model file: mock_model.pkl
+2025-04-27 23:23:55,971 - INFO - Loaded file from cache: cache\9918c488db326dc5e1a4979ef0ed9ecefa31f7211e4b9e2f2a70b1d1fd1487eb.csv
+2025-04-27 23:23:55,974 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
+2025-04-27 23:23:56,303 - ERROR - An unexpected error occurred: 'summary_plot_path'
+2025-04-27 23:26:49,575 - INFO - CSV file: mock_data.csv, Model file: mock_model.pkl
+2025-04-27 23:26:49,576 - INFO - Loaded file from cache: cache\9918c488db326dc5e1a4979ef0ed9ecefa31f7211e4b9e2f2a70b1d1fd1487eb.csv
+2025-04-27 23:26:49,578 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
+2025-04-27 23:26:49,862 - ERROR - Primary force plot generation failed: Length of features is not equal to the length of shap_values!
+2025-04-27 23:26:50,167 - ERROR - An unexpected error occurred: 'summary_plot_path'
+2025-04-27 23:27:24,363 - INFO - CSV file: mock_data.csv, Model file: mock_model.pkl
+2025-04-27 23:27:24,364 - INFO - Loaded file from cache: cache\9918c488db326dc5e1a4979ef0ed9ecefa31f7211e4b9e2f2a70b1d1fd1487eb.csv
+2025-04-27 23:27:24,366 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
+2025-04-27 23:32:27,263 - INFO - CSV file: mock_data.csv, Model file: mock_model.pkl
+2025-04-27 23:32:27,264 - INFO - Loaded file from cache: cache\9918c488db326dc5e1a4979ef0ed9ecefa31f7211e4b9e2f2a70b1d1fd1487eb.csv
+2025-04-27 23:32:27,267 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
+2025-04-27 23:32:27,553 - ERROR - Primary force plot generation failed: Length of features is not equal to the length of shap_values!

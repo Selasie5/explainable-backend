@@ -1,2 +1,13 @@
 /.venv
-/venv
+/venv/
+/explanations
+/.DS_Store
+/.idea
+/.vscode
+/.pytest_cache
+/.mypy_cache
+/.coverage
+/.coverage.*
+/.hypothesis/
+/.hypothesis/
+/.hypothesis/

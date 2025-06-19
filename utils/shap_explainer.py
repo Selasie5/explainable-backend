@@ -3,56 +3,198 @@ import matplotlib.pyplot as plt
 import os
 import uuid
 import numpy as np
-
+import logging
+from typing import Union, Dict, List
 from sklearn.base import BaseEstimator
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from xgboost import XGBClassifier
 from lightgbm import LGBMClassifier
+from sklearn.linear_model import LogisticRegression, RidgeClassifier
 
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+# Create explanations output directory
 EXPLANATION_OUTPUT_DIR = "explanations"
 os.makedirs(EXPLANATION_OUTPUT_DIR, exist_ok=True)
 
-def is_tree_based_model(model):
-    return isinstance(model,(XGBClassifier,LGBMClassifier,RandomForestClassifier, GradientBoostingClassifier))
-    
-def generate_shap_explanations(model, data):
-   
-    X = data if isinstance(data, np.ndarray) else data.values
+def is_tree_based_model(model: BaseEstimator) -> bool:
+    """Check if the model is tree-based"""
+    return isinstance(model, (XGBClassifier, LGBMClassifier,
+                            RandomForestClassifier, GradientBoostingClassifier))
 
+def generate_shap_explanations(model: BaseEstimator, data: Union[np.ndarray, 'pd.DataFrame']) -> Dict:
+    """
+    Generate SHAP explanations for a given model and dataset
     
-    if is_tree_based_model(model):
-        explainer = shap.TreeExplainer(model)
-    else:
-       from sklearn.linear_model import LogisticRegression, RidgeClassifier
+    Args:
+        model: Trained machine learning model
+        data: Input data (pandas DataFrame or numpy array)
+    
+    Returns:
+        Dictionary containing:
+        - summary_plot_path: Path to summary plot image
+        - force_plot_path: Path to force plot HTML
+        - feature_importance: Dictionary of feature importances
+        - status: Success/error status
+        - message: Detailed status message
+    """
+    result = {
+        "summary_plot_path": None,
+        "force_plot_path": None,
+        "feature_importance": {},
+        "status": "error",
+        "message": ""
+    }
+    
+    try:
+        # Convert data to numpy array if needed and get feature names
+        X = data.values if hasattr(data, 'values') else np.array(data)
+        feature_names = (data.columns.tolist() if hasattr(data, 'columns') 
+                        else [f'feature_{i}' for i in range(X.shape[1])])
 
-    if isinstance(model, (LogisticRegression, RidgeClassifier)):
-            explainer = shap.LinearExplainer(model, X, feature_dependence="independent")
-    else:
+        # Initialize appropriate SHAP explainer
+        if is_tree_based_model(model):
+            explainer = shap.TreeExplainer(model)
+        elif isinstance(model, (LogisticRegression, RidgeClassifier)):
+            # Special handling for linear models with feature names warning
+            masker = shap.maskers.Independent(X, max_samples=100)
+            explainer = shap.LinearExplainer(model, masker)
+            if not hasattr(model, 'feature_names_in_'):
+                explainer.feature_names = feature_names
+        else:
             explainer = shap.Explainer(model, X)
 
+        # Compute SHAP values
+        shap_values = explainer(X)
+        
+        # Convert to Explanation object if needed
+        if not isinstance(shap_values, shap.Explanation):
+            base_value = explainer.expected_value
+            if isinstance(base_value, np.ndarray) and len(base_value) == 1:
+                base_value = base_value[0]
+                
+            shap_values = shap.Explanation(
+                values=shap_values.values if hasattr(shap_values, 'values') else shap_values,
+                base_values=base_value,
+                data=X,
+                feature_names=feature_names
+            )
 
-    shap_values = explainer(X)
+        # Generate summary plot
+        summary_path = os.path.join(EXPLANATION_OUTPUT_DIR, f"{uuid.uuid4()}_summary_plot.png")
+        try:
+            plt.figure(figsize=(10, 6))
+            shap.summary_plot(shap_values, X, feature_names=feature_names, show=False)
+            plt.tight_layout()
+            plt.savefig(summary_path, bbox_inches='tight', dpi=300)
+            plt.close()
+            result["summary_plot_path"] = summary_path
+        except Exception as e:
+            logger.error(f"Summary plot generation failed: {str(e)}")
+            if os.path.exists(summary_path):
+                os.remove(summary_path)
 
-    # Save summary plot
-    summary_path = os.path.join(EXPLANATION_OUTPUT_DIR, f"{uuid.uuid4()}_summary_plot.png")
-    shap.summary_plot(shap_values, data, show=False)
-    plt.savefig(summary_path, bbox_inches='tight')
-    plt.clf()
+        # Generate force plot with comprehensive error handling
+        force_path = generate_force_plot(shap_values, explainer, feature_names, model)
+        result["force_plot_path"] = force_path
 
-    # Save force plot for first sample
-    force_plot_html = shap.plots.force(explainer.expected_value, shap_values[0], matplotlib=False)
-    force_path = os.path.join(EXPLANATION_OUTPUT_DIR, f"{uuid.uuid4()}_force_plot.html")
-    shap.save_html(force_path, force_plot_html)
+        # Compute feature importances
+        try:
+            feature_importances = compute_feature_importances(shap_values)
+            result["feature_importance"] = {
+                feature: float(importance)
+                for feature, importance in zip(feature_names, feature_importances)
+            }
+        except Exception as e:
+            logger.error(f"Feature importance calculation failed: {str(e)}")
 
-    # Feature importance (mean absolute SHAP values)
-    feature_importances = np.abs(shap_values.values).mean(axis=0)
-    importance_dict = {
-        feature: float(importance)
-        for feature, importance in zip(data.columns, feature_importances)
-    }
+        result["status"] = "success"
+        result["message"] = "SHAP explanations generated successfully"
+        return result
 
-    return {
-        "summary_plot_path": summary_path,
-        "force_plot_path": force_path,
-        "feature_importance": importance_dict
-    }
+    except Exception as e:
+        logger.error(f"SHAP explanation generation failed: {str(e)}")
+        result["message"] = f"Error: {str(e)}"
+        return result
+
+def generate_force_plot(shap_values: shap.Explanation, 
+                       explainer: shap.Explainer, 
+                       feature_names: List[str], 
+                       model: BaseEstimator) -> Union[str, None]:
+    """
+    Generate force plot with comprehensive error handling and fallbacks
+    
+    Args:
+        shap_values: SHAP values Explanation object
+        explainer: SHAP explainer instance
+        feature_names: List of feature names
+        model: The trained model
+    
+    Returns:
+        Path to saved force plot HTML or None if generation failed
+    """
+    force_path = None
+    expected_value = explainer.expected_value
+    
+    # Convert expected_value to proper format
+    if isinstance(expected_value, np.ndarray) and len(expected_value) == 1:
+        expected_value = expected_value[0]
+    
+    try:
+        # Handle different model types and SHAP value shapes
+        if len(shap_values.shape) == 3:  # Multiclass case
+            predicted_class = np.argmax(shap_values.values[0].sum(axis=0))
+            ev = expected_value[predicted_class] if isinstance(expected_value, np.ndarray) else expected_value
+            values = shap_values.values[0, predicted_class]
+        else:  # Binary or regression
+            ev = expected_value[0] if isinstance(expected_value, np.ndarray) else expected_value
+            values = shap_values.values[0]
+        
+        # Generate the force plot with proper parameter ordering
+        force_plot = shap.plots.force(
+            base_value=ev,
+            shap_values=values,
+            features=shap_values.data[0],
+            feature_names=feature_names,
+            matplotlib=False
+        )
+        
+        # Save the plot
+        force_path = os.path.join(EXPLANATION_OUTPUT_DIR, f"{uuid.uuid4()}_force_plot.html")
+        shap.save_html(force_path, force_plot)
+        
+    except Exception as e:
+        logger.error(f"Primary force plot generation failed: {str(e)}")
+        try:
+            # Fallback 1: Try without feature names
+            force_plot = shap.plots.force(
+                base_value=ev,
+                shap_values=values,
+                matplotlib=False
+            )
+            force_path = os.path.join(EXPLANATION_OUTPUT_DIR, f"{uuid.uuid4()}_force_plot.html")
+            shap.save_html(force_path, force_plot)
+        except Exception as e:
+            logger.error(f"Fallback 1 force plot generation failed: {str(e)}")
+            try:
+                # Fallback 2: Try simplest possible force plot
+                force_plot = shap.plots.force(
+                    base_value=expected_value[0] if isinstance(expected_value, np.ndarray) else expected_value,
+                    shap_values=shap_values.values[0],
+                    matplotlib=False
+                )
+                force_path = os.path.join(EXPLANATION_OUTPUT_DIR, f"{uuid.uuid4()}_force_plot.html")
+                shap.save_html(force_path, force_plot)
+            except Exception as e:
+                logger.error(f"Fallback 2 force plot generation failed: {str(e)}")
+    
+    return force_path
+
+def compute_feature_importances(shap_values: shap.Explanation) -> np.ndarray:
+    """Compute feature importances from SHAP values"""
+    if len(shap_values.shape) == 3:  # Multiclass
+        return np.mean(np.abs(shap_values.values), axis=(0, 1))
+    else:  # Binary or regression
+        return np.mean(np.abs(shap_values.values), axis=0)

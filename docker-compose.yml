@@ -1,0 +1,11 @@
+version: "3.9"
+services:
+  backend:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./cache:/app/cache
+      - ./explanations:/app/explanations
+    environment:
+      - PYTHONUNBUFFERED=1
