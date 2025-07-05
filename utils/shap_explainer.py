@@ -10,6 +10,8 @@ from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from xgboost import XGBClassifier
 from lightgbm import LGBMClassifier
 from sklearn.linear_model import LogisticRegression, RidgeClassifier
+from starlette.responses import StreamingResponse
+import io
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -63,12 +65,17 @@ def generate_shap_explanations(model: BaseEstimator, data: Union[np.ndarray, 'pd
             explainer = shap.LinearExplainer(model, masker)
             if not hasattr(model, 'feature_names_in_'):
                 explainer.feature_names = feature_names
+                logger.warning("Model fitted without feature names. Using provided feature names.")
         else:
             explainer = shap.Explainer(model, X)
 
         # Compute SHAP values
         shap_values = explainer(X)
         
+
+        buf = io.BytesIO()
+   
+
         # Convert to Explanation object if needed
         if not isinstance(shap_values, shap.Explanation):
             base_value = explainer.expected_value
@@ -82,14 +89,26 @@ def generate_shap_explanations(model: BaseEstimator, data: Union[np.ndarray, 'pd
                 feature_names=feature_names
             )
 
+          
+
         # Generate summary plot
         summary_path = os.path.join(EXPLANATION_OUTPUT_DIR, f"{uuid.uuid4()}_summary_plot.png")
         try:
             plt.figure(figsize=(10, 6))
             shap.summary_plot(shap_values, X, feature_names=feature_names, show=False)
             plt.tight_layout()
-            plt.savefig(summary_path, bbox_inches='tight', dpi=300)
+            plt.savefig(buf, format="png", bbox_inches='tight', dpi=300)
             plt.close()
+            buf.seek(0)
+
+            # Ensure StreamingResponse is returned correctly
+            try:
+                buf.seek(0)  # Reset buffer pointer to the beginning
+                return StreamingResponse(buf, media_type="image/png")
+            except Exception as e:
+                logger.error(f"Error returning StreamingResponse: {str(e)}")
+                return StreamingResponse(io.BytesIO(b"Error generating SHAP explanations"), media_type="text/plain")
+
             result["summary_plot_path"] = summary_path
         except Exception as e:
             logger.error(f"Summary plot generation failed: {str(e)}")
