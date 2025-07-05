@@ -9,7 +9,7 @@ AnalyzeRouter = APIRouter()
 @AnalyzeRouter.post("/analyze")
 async def analyze_files(csv: UploadFile = File(...), model: UploadFile = File(...)):
     try:
-        # Log file names and types for debugging
+       
         logger.info(f"CSV file: {csv.filename}, Model file: {model.filename}")
 
         # Process uploaded files
