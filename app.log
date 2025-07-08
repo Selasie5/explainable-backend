@@ -216,3 +216,8 @@ KeyError: 35
 2025-07-08 04:17:26,141 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
 2025-07-08 04:17:26,146 - WARNING - Model fitted without feature names. Using provided feature names.
 2025-07-08 04:17:26,479 - ERROR - An unexpected error occurred: 'summary_plot_path'
+2025-07-08 04:23:06,752 - INFO - CSV file: mock_data.csv, Model file: mock_model.pkl
+2025-07-08 04:23:06,758 - INFO - Loaded file from cache: cache\9918c488db326dc5e1a4979ef0ed9ecefa31f7211e4b9e2f2a70b1d1fd1487eb.csv
+2025-07-08 04:23:06,766 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
+2025-07-08 04:23:06,773 - WARNING - Model fitted without feature names. Using provided feature names.
+2025-07-08 04:23:07,061 - ERROR - Primary force plot generation failed: Length of features is not equal to the length of shap_values!
