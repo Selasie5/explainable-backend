@@ -2,7 +2,7 @@ from fastapi import APIRouter, UploadFile, File, status, HTTPException
 from fastapi.responses import JSONResponse
 from utils.file_handler import process_uploaded_file
 from utils.file_loader import validate_model_compatibility
-from utils.shap_explainer import generate_shap_explanations
+from services.shap_explainer import generate_shap_explanations
 from utils.logger import logger
 AnalyzeRouter = APIRouter()
 
@@ -11,7 +11,7 @@ async def analyze_files(csv: UploadFile = File(...), model: UploadFile = File(..
     try:
         logger.info(f"CSV file: {csv.filename}, Model file: {model.filename}")
 
-        # Process uploaded files
+       
         df, df_source = process_uploaded_file(csv)
         loaded_model, model_source = process_uploaded_file(model)
 
