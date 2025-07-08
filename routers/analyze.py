@@ -9,7 +9,6 @@ AnalyzeRouter = APIRouter()
 @AnalyzeRouter.post("/analyze")
 async def analyze_files(csv: UploadFile = File(...), model: UploadFile = File(...)):
     try:
-       
         logger.info(f"CSV file: {csv.filename}, Model file: {model.filename}")
 
         # Process uploaded files
@@ -21,6 +20,9 @@ async def analyze_files(csv: UploadFile = File(...), model: UploadFile = File(..
 
         # Generate SHAP explanations
         shap_results = generate_shap_explanations(loaded_model, df)
+        
+        if shap_results["status"] != "success":
+            raise HTTPException(status_code=400, detail=shap_results["message"])
 
         return JSONResponse(
             content={
@@ -35,14 +37,10 @@ async def analyze_files(csv: UploadFile = File(...), model: UploadFile = File(..
                 "feature_importance": shap_results["feature_importance"]
             }
         )
-
     except HTTPException as e:
-        # Handle HTTP exceptions with custom error messages
         logger.error(f"HTTP Exception: {e.detail}")
         raise e
-
     except Exception as e:
-        # Catch any other unexpected exceptions
         logger.error(f"An unexpected error occurred: {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,

@@ -201,3 +201,18 @@ KeyError: 35
 2025-07-05 16:24:30,948 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
 2025-07-05 16:24:30,953 - WARNING - Model fitted without feature names. Using provided feature names.
 2025-07-05 16:24:31,233 - ERROR - An unexpected error occurred: 'StreamingResponse' object is not subscriptable
+2025-07-08 04:11:39,712 - INFO - CSV file: mock_data.csv, Model file: mock_model.pkl
+2025-07-08 04:11:39,713 - INFO - Loaded file from cache: cache\9918c488db326dc5e1a4979ef0ed9ecefa31f7211e4b9e2f2a70b1d1fd1487eb.csv
+2025-07-08 04:11:39,734 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
+2025-07-08 04:11:39,790 - WARNING - Model fitted without feature names. Using provided feature names.
+2025-07-08 04:11:40,940 - ERROR - An unexpected error occurred: 'StreamingResponse' object is not subscriptable
+2025-07-08 04:14:13,460 - INFO - CSV file: mock_data.csv, Model file: mock_model.pkl
+2025-07-08 04:14:13,461 - INFO - Loaded file from cache: cache\9918c488db326dc5e1a4979ef0ed9ecefa31f7211e4b9e2f2a70b1d1fd1487eb.csv
+2025-07-08 04:14:13,463 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
+2025-07-08 04:14:13,468 - WARNING - Model fitted without feature names. Using provided feature names.
+2025-07-08 04:14:13,782 - ERROR - An unexpected error occurred: 'summary_plot_path'
+2025-07-08 04:17:26,137 - INFO - CSV file: mock_data.csv, Model file: mock_model.pkl
+2025-07-08 04:17:26,137 - INFO - Loaded file from cache: cache\9918c488db326dc5e1a4979ef0ed9ecefa31f7211e4b9e2f2a70b1d1fd1487eb.csv
+2025-07-08 04:17:26,141 - INFO - Loaded file from cache: cache\229b720948442676399158c19d8f7a299bec28e513f73ee424462b896cb9b59b.pkl
+2025-07-08 04:17:26,146 - WARNING - Model fitted without feature names. Using provided feature names.
+2025-07-08 04:17:26,479 - ERROR - An unexpected error occurred: 'summary_plot_path'
