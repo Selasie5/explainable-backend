@@ -12,6 +12,7 @@ from lightgbm import LGBMClassifier
 from sklearn.linear_model import LogisticRegression, RidgeClassifier
 from starlette.responses import StreamingResponse
 import io
+import base64
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -36,14 +37,14 @@ def generate_shap_explanations(model: BaseEstimator, data: Union[np.ndarray, 'pd
     
     Returns:
         Dictionary containing:
-        - summary_plot_path: Path to summary plot image
+        - summary_plot_path: Base64 encoded image (temporary field name)
         - force_plot_path: Path to force plot HTML
         - feature_importance: Dictionary of feature importances
         - status: Success/error status
         - message: Detailed status message
     """
     result = {
-        "summary_plot_path": None,
+        "summary_plot_path": None,  # Will contain base64 image
         "force_plot_path": None,
         "feature_importance": {},
         "status": "error",
@@ -51,7 +52,7 @@ def generate_shap_explanations(model: BaseEstimator, data: Union[np.ndarray, 'pd
     }
     
     try:
-        # Convert data to numpy array if needed and get feature names
+       # Convert data to numpy array if needed and get feature names
         X = data.values if hasattr(data, 'values') else np.array(data)
         feature_names = (data.columns.tolist() if hasattr(data, 'columns') 
                         else [f'feature_{i}' for i in range(X.shape[1])])
@@ -60,21 +61,19 @@ def generate_shap_explanations(model: BaseEstimator, data: Union[np.ndarray, 'pd
         if is_tree_based_model(model):
             explainer = shap.TreeExplainer(model)
         elif isinstance(model, (LogisticRegression, RidgeClassifier)):
-            # Special handling for linear models with feature names warning
+            # Handle feature names warning for sklearn models
+            if hasattr(data, 'columns') and not hasattr(model, 'feature_names_in_'):
+                logger.warning("Model fitted without feature names. Using provided feature names.")
+                # Create a new model with feature names if possible (sklearn >= 1.0)
+                if hasattr(model, 'set_output'):
+                    model.set_output(transform="pandas")
             masker = shap.maskers.Independent(X, max_samples=100)
             explainer = shap.LinearExplainer(model, masker)
-            if not hasattr(model, 'feature_names_in_'):
-                explainer.feature_names = feature_names
-                logger.warning("Model fitted without feature names. Using provided feature names.")
         else:
             explainer = shap.Explainer(model, X)
 
         # Compute SHAP values
         shap_values = explainer(X)
-        
-
-        buf = io.BytesIO()
-   
 
         # Convert to Explanation object if needed
         if not isinstance(shap_values, shap.Explanation):
@@ -89,48 +88,27 @@ def generate_shap_explanations(model: BaseEstimator, data: Union[np.ndarray, 'pd
                 feature_names=feature_names
             )
 
-          
+        # Generate summary plot (base64)
+        buf = io.BytesIO()
+        plt.figure(figsize=(10, 6))
+        shap.summary_plot(shap_values, X, feature_names=feature_names, show=False)
+        plt.tight_layout()
+        plt.savefig(buf, format="png", bbox_inches='tight', dpi=300)
+        plt.close()
+        buf.seek(0)
+        result["summary_plot_path"] = base64.b64encode(buf.read()).decode('utf-8')
 
-        # Generate summary plot
-        summary_path = os.path.join(EXPLANATION_OUTPUT_DIR, f"{uuid.uuid4()}_summary_plot.png")
-        try:
-            plt.figure(figsize=(10, 6))
-            shap.summary_plot(shap_values, X, feature_names=feature_names, show=False)
-            plt.tight_layout()
-            plt.savefig(buf, format="png", bbox_inches='tight', dpi=300)
-            plt.close()
-            buf.seek(0)
-
-            # Ensure StreamingResponse is returned correctly
-            try:
-                buf.seek(0)  # Reset buffer pointer to the beginning
-                return StreamingResponse(buf, media_type="image/png")
-            except Exception as e:
-                logger.error(f"Error returning StreamingResponse: {str(e)}")
-                return StreamingResponse(io.BytesIO(b"Error generating SHAP explanations"), media_type="text/plain")
-
-            result["summary_plot_path"] = summary_path
-        except Exception as e:
-            logger.error(f"Summary plot generation failed: {str(e)}")
-            if os.path.exists(summary_path):
-                os.remove(summary_path)
-
-        # Generate force plot with comprehensive error handling
-        force_path = generate_force_plot(shap_values, explainer, feature_names, model)
-        result["force_plot_path"] = force_path
+        # Generate force plot
+        result["force_plot_path"] = generate_force_plot(shap_values, explainer, feature_names, model)
 
         # Compute feature importances
-        try:
-            feature_importances = compute_feature_importances(shap_values)
-            result["feature_importance"] = {
-                feature: float(importance)
-                for feature, importance in zip(feature_names, feature_importances)
-            }
-        except Exception as e:
-            logger.error(f"Feature importance calculation failed: {str(e)}")
+        feature_importances = compute_feature_importances(shap_values)
+        result["feature_importance"] = {
+            feature: float(importance)
+            for feature, importance in zip(feature_names, feature_importances)
+        }
 
         result["status"] = "success"
-        result["message"] = "SHAP explanations generated successfully"
         return result
 
     except Exception as e:
