@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Model Explanation Report</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 2em; }
+        .section { margin-bottom: 2em; }
+        .feature-table, .feature-table th, .feature-table td { border: 1px solid #ccc; border-collapse: collapse; }
+        .feature-table th, .feature-table td { padding: 0.5em; }
+    </style>
+</head>
+<body>
+    <h1>Model Explanation Report</h1>
+    <div class="section">
+        <h2>Prediction Context</h2>
+        <p><b>Predicted class:</b> {{ prediction.predicted_class }}<br>
+        <b>Class probabilities:</b> {{ prediction.class_probabilities }}<br>
+        <b>Base value:</b> {{ prediction.base_value }}<br>
+        <b>Decision threshold:</b> {{ prediction.decision_threshold }}</p>
+    </div>
+    <div class="section">
+        <h2>Local Explanation</h2>
+        <table class="feature-table">
+            <tr>
+                <th>Feature</th><th>Value</th><th>SHAP Value</th><th>Direction</th><th>% of Local Effect</th>
+            </tr>
+            {% for c in local_explanation.top_contributors %}
+            <tr>
+                <td>{{ c.feature }}</td>
+                <td>{{ c.value }}</td>
+                <td>{{ c.shap_value }}</td>
+                <td>{{ c.direction }}</td>
+                <td>{{ "%.1f"|format(c.percent_of_local_effect) }}%</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <p><b>Sum of SHAP values:</b> {{ local_explanation.sum_shap }}</p>
+    </div>
+    <div class="section">
+        <h2>Global Explanation</h2>
+        <p><b>Feature importance (mean |SHAP|):</b> {{ global_explanation.feature_importance_mean_abs }}</p>
+        <p><b>Notes:</b> {{ global_explanation.notes }}</p>
+    </div>
+    <div class="section">
+        <h2>Natural Language Summary</h2>
+        <p>{{ natural_language.local_summary }}</p>
+        <p>{{ natural_language.global_summary }}</p>
+    </div>
+    <div class="section">
+        <h2>What-if Analysis</h2>
+        {% for w in what_if %}
+        <p><b>{{ w.feature }}</b>: {{ w.suggested_change }} ({{ w.estimated_effect }})<br>
+        <i>{{ w.method }}</i> - <small>{{ w.disclaimer }}</small></p>
+        {% endfor %}
+    </div>
+    <div class="section">
+        <h2>Artifacts</h2>
+        <p><a href="{{ artifacts.summary_plot_url }}">Summary Plot</a></p>
+        <p><a href="{{ artifacts.force_plot_html_url }}">Force Plot (interactive)</a></p>
+        {% if artifacts.dependence_plot_urls %}
+        <ul>
+        {% for feat, url in artifacts.dependence_plot_urls.items() %}
+            <li><a href="{{ url }}">Dependence plot for {{ feat }}</a></li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+    <div class="section">
+        <h2>Provenance</h2>
+        <p>Data source: {{ provenance.data_source }}<br>
+        Model source: {{ provenance.model_source }}<br>
+        Timestamp: {{ provenance.timestamp_utc }}<br>
+        Explainer: {{ provenance.explain_algo }}</p>
+    </div>
+</body>
+</html>
