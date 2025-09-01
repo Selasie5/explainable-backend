@@ -5,7 +5,13 @@ import os
 #Define allowed extensions and MIME type
 ALLOWED_EXTENSTIONS = {
     "csv": ["text/csv","application/vnd.ms-excel"],
-    "pkl": ["application/x-pickle", "application/octet-stream"]
+    "pkl": ["application/x-pickle", "application/octet-stream"],
+    "joblib": ["application/octet-stream"],
+    "h5": ["application/x-hdf5", "application/octet-stream"],
+    "pt": ["application/octet-stream"],
+    "pth": ["application/octet-stream"],
+    "json": ["application/json"],
+    "txt": ["text/plain"]
 }
 
 def validate_file_type(file:UploadFile):
