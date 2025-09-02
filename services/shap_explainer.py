@@ -84,15 +84,46 @@ def generate_shap_explanations(model: BaseEstimator, data: Union[np.ndarray, 'pd
         row_id = str(uuid.uuid4())
         preds = model.predict(X)
         probs = model.predict_proba(X)[0] if hasattr(model, "predict_proba") else None
-        class_names = model.classes_ if hasattr(model, "classes_") else ["class_0", "class_1"]
+        # Ensure class names are strings for pydantic validation
+        if hasattr(model, "classes_"):
+            class_names = [str(x) for x in list(model.classes_)]
+        else:
+            class_names = ["class_0", "class_1"]
         predicted_class = class_names[np.argmax(probs)] if probs is not None else str(preds[0])
         class_probabilities = {str(cls): float(prob) for cls, prob in zip(class_names, probs)} if probs is not None else {}
         decision_threshold = 0.5  # or extract from model if available
-        base_value = float(shap_values.base_values[0]) if hasattr(shap_values, "base_values") else None
+        # Handle base_value properly for multiclass
+        if hasattr(shap_values, "base_values"):
+            base_vals = shap_values.base_values
+            if isinstance(base_vals, np.ndarray):
+                if base_vals.ndim == 0:  # scalar
+                    base_value = float(base_vals)
+                elif base_vals.ndim == 1:  # 1D array
+                    if len(base_vals) == 1:
+                        base_value = float(base_vals[0])
+                    else:  # multiclass
+                        pred_idx = np.argmax(probs) if probs is not None else 0
+                        base_value = float(base_vals[pred_idx])
+                else:
+                    base_value = float(base_vals.flat[0])  # fallback
+            else:
+                base_value = float(base_vals)
+        else:
+            base_value = None
 
         # --- Local explanation ---
-        top_contributors = get_top_contributors(X[0], shap_values.values[0], feature_names, predicted_class, n=3)
-        sum_shap = float(np.sum(np.abs(shap_values.values[0])))
+        # Handle multiclass SHAP shapes: shap_values.values can be (n_samples, n_classes, n_features)
+        if hasattr(shap_values, 'shape') and len(shap_values.shape) == 3:
+            pred_idx = np.argmax(probs) if probs is not None else 0
+            shap_row = shap_values.values[0, pred_idx]
+        else:
+            shap_row = shap_values.values[0]
+
+        # Ensure shap_row is 1-D numeric array
+        shap_row = np.asarray(shap_row).ravel()
+
+        top_contributors = get_top_contributors(X[0], shap_row, feature_names, predicted_class, n=3)
+        sum_shap = float(np.sum(np.abs(shap_row)))
 
         # --- Global explanation ---
         feature_importances = compute_feature_importances(shap_values)
@@ -216,11 +247,35 @@ def generate_force_plot(shap_values: shap.Explanation,
             ev = expected_value[0] if isinstance(expected_value, np.ndarray) else expected_value
             values = shap_values.values[0]
         
+        # Prepare features vector to match shap_values length
+        features_vec = np.asarray(shap_values.data[0])
+        # If features_vec has extra dims (e.g., per-class rows), try to select the proper slice
+        if features_vec.ndim == 2:
+            # If second dim matches values length, try first row or class-row
+            if features_vec.shape[1] == np.asarray(values).ravel().shape[0]:
+                # If rows correspond to classes (n_classes x n_features) and pred_idx available, select that
+                try:
+                    pred_idx = np.argmax(values.sum()) if hasattr(values, 'shape') and values is not None else 0
+                except Exception:
+                    pred_idx = 0
+                if features_vec.shape[0] == getattr(shap_values, 'values').shape[1]:
+                    features_vec = features_vec[pred_idx]
+                else:
+                    features_vec = features_vec[0]
+            else:
+                features_vec = features_vec.ravel()[:np.asarray(values).ravel().shape[0]]
+        else:
+            features_vec = features_vec.ravel()
+
+        # Final sanity check: lengths must match
+        if np.asarray(values).ravel().shape[0] != features_vec.ravel().shape[0]:
+            raise ValueError("Length of features is not equal to the length of shap_values!")
+
         # Generate the force plot with proper parameter ordering
         force_plot = shap.plots.force(
             base_value=ev,
             shap_values=values,
-            features=shap_values.data[0],
+            features=features_vec,
             feature_names=feature_names,
             matplotlib=False
         )
